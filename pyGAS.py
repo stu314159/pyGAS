@@ -22,7 +22,8 @@ class pyGAS:
         self.Tmin = 300; # C 
         self.Tmax = 5000; # C
         self.R_universal = 8.314; #kJ/kmol-K
-        self.To = 298.15
+        self.To = 298.15 # K
+        self.Po = 101.3 # kPa
         
     def Cp(self,T):
         """
@@ -45,6 +46,11 @@ class pyGAS:
         
     def enthalpy(self,T):
         """
+        absolute enthalpy
+        """
+        return self._enthalpy(T) - self._enthalpy(self.To)
+    def _enthalpy(self,T):
+        """
         specific enthalpy as a function of temperature
         kJ/kg
         
@@ -62,7 +68,13 @@ class pyGAS:
             
         return outVal*self.R_M  
         
-    def entropy(self,T):
+    def entropy(self,T,P):
+        """
+        absolute entropy
+        """
+        return self._entropy(T,P) - self._entropy(self.To,self.Po)
+        
+    def _entropy(self,T,P):
         """
         specific entropy as a function of temperature
         kJ/kg-K
@@ -77,6 +89,8 @@ class pyGAS:
             outVal = np.sum(np.dot(self.aHigh,Tvec)) + self.bHigh[1]
         else:
             outVal = np.sum(np.dot(self.aLow,Tvec)) + self.bLow[1]
+            
+        outVal-=np.log(P/self.Po)
             
         return outVal*self.R_M  
         
