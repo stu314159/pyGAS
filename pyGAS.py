@@ -25,6 +25,31 @@ class pyGAS:
         self.To = 298.15 # K
         self.Po = 101.3 # kPa
         
+    
+    def v_TP(self,T,P):
+        """
+         returns specific volume in m^3/kg
+         T - K
+         P - kPa
+         R_M - kJ/kg-K
+         
+        """
+        return self.R_M*T/P 
+        
+    def T_vP(self,v,P):
+        """
+        returns Temperature as a function of specific
+        volume and pressure
+        
+        """
+        return P*v/self.R_M
+        
+    def P_vT(self,v,T):
+       """
+       
+       """
+       return self.R_M*T/v
+    
     def Cp(self,T):
         """
         specific heat as a function of temperature
