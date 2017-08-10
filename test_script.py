@@ -13,6 +13,8 @@ T1 = 700; #K
 cp1 = helium.Cp(T1)
 h0 = helium.enthalpy(To)
 h1 = helium.enthalpy(T1)
-
+s0 = helium.entropy(To)
+s1 = helium.entropy(T1)
 print "specific heat at %g K = %g kJ/kg-K \n"%(T1,cp1)
 print "specific enthalpy at %g K = %g kJ/kg \n"%(T1,(h1-h0))
+print "specific entropy at %g K = %g kJ/kg-K \n"%(T1,(s1-s0))

@@ -46,7 +46,7 @@ class pyGAS:
     def enthalpy(self,T):
         """
         specific enthalpy as a function of temperature
-        kJ/kg-K
+        kJ/kg
         
         """
         if (T>self.Tmax):
@@ -59,6 +59,24 @@ class pyGAS:
             outVal = np.sum(np.dot(self.aHigh,Tvec)) + self.bHigh[0]
         else:
             outVal = np.sum(np.dot(self.aLow,Tvec)) + self.bLow[0]
+            
+        return outVal*self.R_M  
+        
+    def entropy(self,T):
+        """
+        specific entropy as a function of temperature
+        kJ/kg-K
+        """
+        if (T>self.Tmax):
+            print "Warning! Requested temperature is high out of range for this species!"
+        
+        Tvec = np.array([np.log(T),T,(T**2)/2.,(T**3)/3.,(T**4)/4.])
+        outVal = 0.
+        
+        if T>1000.:
+            outVal = np.sum(np.dot(self.aHigh,Tvec)) + self.bHigh[1]
+        else:
+            outVal = np.sum(np.dot(self.aLow,Tvec)) + self.bLow[1]
             
         return outVal*self.R_M  
         
