@@ -22,7 +22,8 @@ class pyGAS:
         self.Tmin = 300; # C 
         self.Tmax = 5000; # C
         self.R_universal = 8.314; #kJ/kmol-K
-        self.To = 298.15 # K
+        self.To_s = 293.15 # K
+        self.To_h = 298.15
         self.Po = 101.3 # kPa
         
     
@@ -73,7 +74,7 @@ class pyGAS:
         """
         absolute enthalpy
         """
-        return self._enthalpy(T) - self._enthalpy(self.To)
+        return self._enthalpy(T) - self._enthalpy(self.To_h)
     def _enthalpy(self,T):
         """
         specific enthalpy as a function of temperature
@@ -97,7 +98,7 @@ class pyGAS:
         """
         absolute entropy
         """
-        return self._entropy(T,P) - self._entropy(self.To,self.Po)
+        return self._entropy(T,P) - self._entropy(self.To_s,self.Po)
         
     def _entropy(self,T,P):
         """
