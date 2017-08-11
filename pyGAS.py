@@ -5,6 +5,7 @@ Created on Thu Aug 10 16:55:33 2017
 @author: stu
 """
 import numpy as np
+import scipy.optimize as opt
 
 class pyGAS:
     """
@@ -94,6 +95,17 @@ class pyGAS:
             
         return outVal*self.R_M  
         
+
+    def isentropicWork(self,T0,P0,P1):
+        """
+        given T0 and P0, find P1
+        """
+        s0 = self.entropy(T0,P0)
+        def wrappedFun(T):
+            return (np.abs(self.entropy(T,P1) - s0))
+        res = opt.minimize(wrappedFun,T0)
+        return res.x
+        
     def entropy(self,T,P):
         """
         absolute entropy
@@ -125,9 +137,37 @@ class He(pyGAS):
         pyGAS.__init__(self)
         self.molecular_weight = 4.0026; #kg/kmol
         self.R_M = 2.0769; #kJ/kg-K
-        self.Tmin = 200
-        self.Tmax = 6000;
+        self.Tmin = 200.
+        self.Tmax = 6000.;
         self.aHigh[:] = [2.50,0,0,0,0]; #mono-atomic gas
         self.bHigh[:] = [-7.45375e2,0.92872394]
         self.aLow[:] = [2.5,0,0,0,0];
         self.bLow[:] = [2.85315086e5,1.62166556]
+        
+class CO2(pyGAS):
+    def __init__(self):
+        pyGAS.__init__(self)
+        self.molecular_weight = 44.0098
+        self.R_M = 0.1889
+        self.Tmin = 200.
+        self.Tmax = 6000.
+        self.aHigh[:] = [4.63659493, 2.74131991e-3,
+                         -9.95828531e-7,1.60373011e-10,
+                         -9.16103468e-15]
+        self.bHigh[:] = [-4.90249341e4,-1.93534855]
+        self.aLow[:] = [2.35677352,8.98459677e-3,-7.12356269e-6,
+                        2.45919022e-9,-1.43699548e-13]
+        self.bLow[:] = [-4.83719697e4,9.90105222]
+
+class Air(pyGAS):
+    """
+    no data right now for b (low or high) or aHigh for air
+    """
+    def __init__(self):
+        pyGAS.__init__(self)
+        self.molecular_weight = 28.97; #kg/kmol
+        self.R_M = 0.2870; #kJ/kg-K
+        self.Tmin = 300;
+        self.Tmax = 1000;
+        self.aLow[:] = [3.653, -1.337e-3, 3.294e-6, -1.913e-9, 0.2763e-12]
+        
