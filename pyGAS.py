@@ -95,7 +95,8 @@ class pyGAS:
             
         return outVal*self.R_M  
         
-
+    
+    
     def isentropicWork(self,T0,P0,P1):
         """
         given T0 and P0, find P1
