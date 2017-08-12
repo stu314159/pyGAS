@@ -104,7 +104,7 @@ class pyGAS:
         s0 = self.entropy(T0,P0)
         def wrappedFun(T):
             return (np.abs(self.entropy(T,P1) - s0))
-        res = opt.minimize(wrappedFun,T0)
+        res = opt.minimize(wrappedFun,T0/2.)
         return res.x
         
     def entropy(self,T,P):
