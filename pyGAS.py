@@ -118,10 +118,17 @@ class pyGAS:
         """
         given T0 and P0, find P1
         """
+        # use constant specific heat approach to get an estimate for T1
+        k = self.k(T0)
+        
+        # assume k ~= 0 and P0 ~=0  consider checking for this.
+        T1_est = T0*(P1/P0)**((k-1.)/k)
+        
+        
         s0 = self.entropy(T0,P0)
         def wrappedFun(T):
             return (np.abs(self.entropy(T,P1) - s0))
-        res = opt.minimize(wrappedFun,T0/2.)
+        res = opt.minimize(wrappedFun,T1_est)
         return res.x
         
     def entropy(self,T,P):
