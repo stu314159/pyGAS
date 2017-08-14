@@ -184,6 +184,20 @@ class CO2(pyGAS):
                         2.45919022e-9,-1.43699548e-13]
         self.bLow[:] = [-4.83719697e4,9.90105222]
 
+class O2(pyGAS):
+    def __init__(self):
+        pyGAS.__init__(self)
+        self.molecular_weight = 31.999 # kg/kmol
+        self.R_M = 0.2598
+        self.Tmin = 200.
+        self.Tmax = 3500.
+        self.aHigh[:] = [3.28253784E+00, 1.48308754E-03, -7.57966669E-07,
+                         2.09470555E-10,-2.16717794E-14]
+        self.bHigh[:] = [-2.99673416E-03, 9.84730201E-06]
+        self.aLow[:] = [3.78245636E+00, -2.99673416E-03, 9.84730201E-06,
+                        -9.68129509E-09, 3.24372837E-12]
+        self.bLow[:] = [-1.06394356E+03, 3.65767573E+00]
+
 class Air(pyGAS):
     """
     no data right now for b (low or high) or aHigh for air
