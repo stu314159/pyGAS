@@ -213,10 +213,27 @@ class N2(pyGAS):
         self.bLow[:] = [-0.10208999E+04, 0.03950372E+02]
         self.To_s = 0.25
         
+class Ar(pyGAS):
+    """
+    Argon
+    """
+    def __init__(self):
+        pyGAS.__init__(self)
+        self.molecular_weight = 39.948; #kg/kmol
+        self.R_M = 0.208 # kJ/kg-K
+        self.Tmin = 200.
+        self.Tmax = 6000.
+        self.aHigh[:] = [2.5, 0., 0., 0., 0.]
+        self.bHigh[:] = [-7.45375e2, 4.37967491]
+        self.aLow[:] = [2.5, 0., 0.,0.,0.]
+        self.bLow[:] = [-7.45375e2,4.37967491]
+        self.To_s = 0.25;
 
 class Air(pyGAS):
     """
     no data right now for b (low or high) or aHigh for air
+    Recommend using Mixture and combining N2, O2, and other desired
+    species.
     """
     def __init__(self):
         pyGAS.__init__(self)
