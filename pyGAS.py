@@ -226,3 +226,100 @@ class Air(pyGAS):
         self.Tmax = 1000;
         self.aLow[:] = [3.653, -1.337e-3, 3.294e-6, -1.913e-9, 0.2763e-12]
         
+        
+class Mixture(object):
+    """
+    a mixture of ideal gasses
+    """
+    def __init__(self,speciesDict={}):
+        """
+        optional argument gives the species in
+        dictionary format
+        speciesDict:
+        key = species 
+        value = mass fraction
+        """
+        
+        self.speciesDict = speciesDict;
+
+    def molecular_weight(self):
+        """
+        returns the weighted average molecular weight
+        """
+        mw = 0.
+        for species in self.speciesDict.keys():
+            mw+=species.molecular_weight*self.speciesDict[species]
+        return mw
+        
+    def enthalpy(self,T):
+        """
+        returns the weighted average enthalpy for the mixture
+        """
+        h = 0.
+        for species in self.speciesDict.keys():
+            h+=species.enthalpy(T)*self.speciesDict[species]
+            
+        return h
+    
+    def entropy(self,T,P):
+        """
+         returns the weighted average entropy for the mixture
+        """
+        
+        s = 0.
+        for species in self.speciesDict.keys():
+            s+=species.entropy(T,P)*self.speciesDict[species]
+        return s;
+    
+    def Cp(self,T):
+        """
+          weighted average specific heat at constant pressure
+          for the mixture
+        """
+        cp = 0.
+        for species in self.speciesDict.keys():
+            cp+=species.Cp(T)*self.speciesDict[species]
+            
+        return cp
+    
+    def Cv(self,T):
+        """
+        weighted average specific heat at constant volume for mixture
+        """
+        cv = 0.
+        for species in self.speciesDict.keys():
+            cv+=species.Cv(T)*self.speciesDict[species]
+            
+        return cv
+    
+    def k(self,T):
+        """
+        weighted average k for mixture
+        """
+        k = 0.
+        for species in self.speciesDict.keys():
+            k+=species.k(T)*self.speciesDict[species]
+            
+        return k
+    
+    def isentropicWork(self,T0,P0,P1):
+        """
+        given T0 and P0, find P1
+        """
+        # use constant specific heat approach to get an estimate for T1
+        k = self.k(T0)
+        
+        # assume k ~= 0 and P0 ~=0  consider checking for this.
+        T1_est = T0*(P1/P0)**((k-1.)/k)
+        
+        
+        s0 = self.entropy(T0,P0)
+        def wrappedFun(T):
+            return (np.abs(self.entropy(T,P1) - s0))
+        res = opt.minimize(wrappedFun,T1_est)
+        return res.x
+        
+        
+        
+        
+        
