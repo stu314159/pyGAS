@@ -12,6 +12,13 @@ To = 273.15; # K
 T1 = 800; #K
 P = 101.3; # kPa
 cp1 = helium.Cp(T1)
+cv1 = helium.Cv(T1)
+k1 = helium.k(T1)
+
+print "Cp = %g \n"%cp1
+print "Cv = %g \n"%cv1
+print "k = %g \n"%k1
+
 h0 = helium.enthalpy(To)
 h1 = helium.enthalpy(T1)
 s0 = helium.entropy(To,P)

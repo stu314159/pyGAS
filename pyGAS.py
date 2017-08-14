@@ -70,6 +70,23 @@ class pyGAS:
             outVal = np.sum(np.dot(self.aLow,Tvec))
         
         return outVal*self.R_M
+    
+    def Cv(self,T):
+        """
+        specific heat at constant volume.  This will be found by using
+        the temperature dependent value of Cp and the material specific gas
+        constant
+        """
+        
+        return (self.Cp(T) - self.R_M)
+    
+    def k(self,T):
+        """
+        ratio of specific heats as a function of temperature
+        
+        """
+        
+        return (self.Cp(T)/self.Cv(T))
         
     def enthalpy(self,T):
         """
