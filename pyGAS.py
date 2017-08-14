@@ -129,7 +129,7 @@ class pyGAS:
         def wrappedFun(T):
             return (np.abs(self.entropy(T,P1) - s0))
         res = opt.minimize(wrappedFun,T1_est)
-        return res.x
+        return float(res.x)
         
     def entropy(self,T,P):
         """
@@ -250,6 +250,16 @@ class Mixture(object):
         for species in self.speciesDict.keys():
             mw+=species.molecular_weight*self.speciesDict[species]
         return mw
+    
+    def R_M(self):
+        """
+        return the gas-specific ideal gas constant kJ/kg-K
+        """
+        rm = 0.
+        for species in self.speciesDict.keys():
+            rm+=species.R_M*self.speciesDict[species]
+        return rm
+        
         
     def enthalpy(self,T):
         """
@@ -317,7 +327,7 @@ class Mixture(object):
         def wrappedFun(T):
             return (np.abs(self.entropy(T,P1) - s0))
         res = opt.minimize(wrappedFun,T1_est)
-        return res.x
+        return float(res.x)
         
         
         
