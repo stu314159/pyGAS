@@ -169,6 +169,21 @@ class He(pyGAS):
         self.aLow[:] = [2.5,0,0,0,0];
         self.bLow[:] = [2.85315086e5,1.62166556]
         
+class CO(pyGAS):
+    def __init__(self):
+        pyGAS.__init__(self)
+        self.molecular_weight = 28.0104
+        self.R_M = 0.297
+        self.Tmin = 200.
+        self.Tmax = 6000.
+        self.aHigh[:] = [3.04848583,1.35172818e-3,-4.85794075e-7,
+                         7.88536486e-11,-4.69807489e-15]
+        self.bHigh[:] = [-1.42661171e4,6.01709790]
+        self.aLow[:] = [3.57953347,-6.1035368e-4,1.01681433e-6,
+                        9.07005884e-10,-9.04424499e-13]
+        self.bLow[:] = [-1.4344086e4,3.50840928]
+
+        
 class CO2(pyGAS):
     def __init__(self):
         pyGAS.__init__(self)
